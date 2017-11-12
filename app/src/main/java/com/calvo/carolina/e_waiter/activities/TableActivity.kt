@@ -1,22 +1,24 @@
 package com.calvo.carolina.e_waiter.activities
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.*
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import com.calvo.carolina.e_waiter.R
-import com.calvo.carolina.e_waiter.fragments.TableFragment
 import com.calvo.carolina.e_waiter.models.Dish
 import com.calvo.carolina.e_waiter.models.Order
 import com.calvo.carolina.e_waiter.models.Table
 import com.calvo.carolina.e_waiter.models.Tables
-import com.calvo.carolina.e_waiter.utils.loadFragment
 
 import kotlinx.android.synthetic.main.activity_table.*
 
-class TableActivity : AppCompatActivity(), TableFragment.OnAddDishButtonClickedListener
+class TableActivity : AppCompatActivity()
 {
     companion object {
         val EXTRA_TABLE_POSITION = "EXTRA_TABLE_POSITION"
@@ -33,15 +35,15 @@ class TableActivity : AppCompatActivity(), TableFragment.OnAddDishButtonClickedL
 
     private val position_ : Int by lazy { intent.getIntExtra(EXTRA_TABLE_POSITION, 0) }
     private val table_ : Table by lazy { Tables[intent.getIntExtra(EXTRA_TABLE_POSITION, 0)] }
-
+    private lateinit var adapter: ArrayAdapter<Order>
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_table)
 
         setActionBar()
-        loadFragment(this, R.id.at_fragment_table, TableFragment.newInstance(position_))
-
+        setAddDishButton()
+        setOrdersList()
     }
 
     private fun setActionBar()
@@ -49,10 +51,6 @@ class TableActivity : AppCompatActivity(), TableFragment.OnAddDishButtonClickedL
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = table_.name
-    }
-    override fun onAddDishButtonClicked(table: Table)
-    {
-        startActivityForResult(MenuActivity.intent(this), REQ_MENU_ACTIVITY)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
@@ -82,12 +80,63 @@ class TableActivity : AppCompatActivity(), TableFragment.OnAddDishButtonClickedL
                 {
                     Log.v("MY_TAG", "Table activity. Añadiento pedido a la mesa ${order}")
 
-                    val fragment = fragmentManager.findFragmentById(R.id.at_fragment_table) as? TableFragment
-                    fragment?.addOrderToList(order)
+                    table_.orders.add(order)
+                    adapter.notifyDataSetChanged()
+                    invalidateOptionsMenu()
                     setResult(Activity.RESULT_OK)
                 }
             }
 
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean
+    {
+        menuInflater.inflate(R.menu.menu_table, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean
+    {
+        menu?.findItem(R.id.menu_calculate_bill)?.setEnabled(Tables[position_].orders.size != 0)
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean
+    {
+        if (item?.itemId == R.id.menu_calculate_bill)
+        {
+            val total = Tables[position_].orders.map { order -> order.dish.price }.sum()
+
+            AlertDialog.Builder(this)
+                    .setTitle("Cuenta de la mesa ${position_}")
+                    .setMessage("El total de la cuenta es ${total}€")
+                    .setPositiveButton(getString(R.string.menu_calcular_cuenta_ready), { dialog, _ ->
+                        dialog.dismiss()
+                    })
+                    .show()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+    private fun setAddDishButton()
+    {
+        val addDishButton  = findViewById<View>(R.id.add_dish_button)
+        addDishButton.setOnClickListener { view ->
+            startActivityForResult(MenuActivity.intent(this), REQ_MENU_ACTIVITY)
+        }
+    }
+
+    private fun setOrdersList()
+    {
+        val list = findViewById<ListView>(R.id.ft_orders_list)
+        adapter = ArrayAdapter<Order>(this, android.R.layout.simple_list_item_1, Tables[position_].orders)
+        list.adapter = adapter
+
+        // Nos enteramos de que se ha pulsado un elemento de la lista así:
+        //list.setOnItemClickListener { parent, view, position, id ->
+        //    // Aviso al listener
+        //    onCitySelectedListener?.onCitySelected(Cities.get(position), position)
+        //}
     }
 }

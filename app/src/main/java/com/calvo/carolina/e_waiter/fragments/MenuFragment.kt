@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.calvo.carolina.e_waiter.R
 import com.calvo.carolina.e_waiter.adapters.DishRecyclerViewAdapter
+import com.calvo.carolina.e_waiter.models.Dish
 
 class MenuFragment : Fragment()
 {
@@ -58,15 +59,18 @@ class MenuFragment : Fragment()
     }
     private fun setDishesRecycleView()
     {
-        dishesList_ = root_.findViewById(R.id.fm_dishes_menu_list)
+        dishesList_ = root_.findViewById<RecyclerView>(R.id.fm_dishes_menu_list)
         dishesList_.layoutManager = LinearLayoutManager(activity)
         dishesList_.itemAnimator = DefaultItemAnimator()
-        dishesList_.adapter = DishRecyclerViewAdapter()
+        val dishesAdapter = DishRecyclerViewAdapter()
+        dishesAdapter.listener = onDishSelectedListener
+        dishesList_.adapter = dishesAdapter
+
     }
 
     interface OnDishSelectedListener
     {
-        fun onDishSelected(uri: Uri)
+        fun onDishSelected(dish: Dish)
     }
 
     companion object

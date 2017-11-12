@@ -17,7 +17,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Huevos fritos con patatas" />
+        tools:text="Huevos fritos con patatas"
+        />
 
     <ImageView
         android:id="@+id/cmd_gluten_01"
@@ -31,7 +32,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cmd_egg_02"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cmd_dish_name_text" />
+        app:layout_constraintTop_toBottomOf="@+id/cmd_dish_name_text"
+        tools:visibility="visible"/>
 
     <ImageView
         android:id="@+id/cmd_egg_02"
@@ -46,7 +48,8 @@
         app:layout_constraintEnd_toStartOf="@+id/cmd_fish_03"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/cmd_gluten_01"
-        app:layout_constraintTop_toBottomOf="@+id/cmd_dish_name_text" />
+        app:layout_constraintTop_toBottomOf="@+id/cmd_dish_name_text"
+        tools:visibility="visible"/>
 
     <ImageView
         android:id="@+id/cmd_fish_03"
@@ -61,7 +64,8 @@
         app:layout_constraintEnd_toStartOf="@+id/cmd_milk_04"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/cmd_egg_02"
-        app:layout_constraintTop_toBottomOf="@+id/cmd_dish_name_text" />
+        app:layout_constraintTop_toBottomOf="@+id/cmd_dish_name_text"
+        tools:visibility="visible"/>
 
     <ImageView
         android:id="@+id/cmd_milk_04"
@@ -76,7 +80,8 @@
         app:layout_constraintEnd_toStartOf="@+id/cmd_nuts_05"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/cmd_fish_03"
-        app:layout_constraintTop_toBottomOf="@+id/cmd_dish_name_text" />
+        app:layout_constraintTop_toBottomOf="@+id/cmd_dish_name_text"
+        tools:visibility="visible"/>
 
     <ImageView
         android:id="@+id/cmd_nuts_05"
@@ -88,10 +93,27 @@
         android:src="@drawable/a05"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cmd_dish_price_text"
+        app:layout_constraintEnd_toStartOf="@+id/cmd_seafood_06"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/cmd_milk_04"
-        app:layout_constraintTop_toBottomOf="@+id/cmd_dish_name_text" />
+        app:layout_constraintTop_toBottomOf="@+id/cmd_dish_name_text"
+        tools:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/cmd_seafood_06"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/allergens_seafood"
+        android:maxWidth="32dp"
+        android:src="@drawable/a05"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cmd_dish_price_text"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cmd_nuts_05"
+        app:layout_constraintTop_toBottomOf="@+id/cmd_dish_name_text"
+        tools:visibility="visible"/>
 
     <TextView
         android:id="@+id/cmd_dish_price_text"

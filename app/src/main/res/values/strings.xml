@@ -4,4 +4,9 @@
     <string name="allergen_gluten">Contiene gluten</string>
     <string name="allegerns_egg">Contiene huevo</string>
     <string name="allergens_milk">Contiene lácteos</string>
+    <string name="allergens_nuts">Contiene frutos secos</string>
+    <string name="allergens_seafood">Contiene marisco</string>
+    <string name="feo_notas">Notas</string>
+    <string name="feo_add_button" >Añadir</string>
+    <string name="feo_dish_image">Imagen del plato</string>
 </resources>

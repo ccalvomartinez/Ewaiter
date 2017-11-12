@@ -2,17 +2,20 @@ package com.calvo.carolina.e_waiter.adapters
 
 import android.os.Build
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import com.calvo.carolina.e_waiter.R
+import com.calvo.carolina.e_waiter.fragments.MenuFragment
 import com.calvo.carolina.e_waiter.models.Dish
 import com.calvo.carolina.e_waiter.models.MenuLetter
 import kotlinx.android.synthetic.main.content_menu_dish_item.view.*
 
-class DishRecyclerViewAdapter: RecyclerView.Adapter<DishRecyclerViewAdapter.DishViewHolder>()
+class DishRecyclerViewAdapter(): RecyclerView.Adapter<DishRecyclerViewAdapter.DishViewHolder>()
 {
+    var listener: MenuFragment.OnDishSelectedListener? = null
+
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): DishViewHolder
     {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.content_menu_dish_item, parent, false)
@@ -48,8 +51,17 @@ class DishRecyclerViewAdapter: RecyclerView.Adapter<DishRecyclerViewAdapter.Dish
                      "a03" -> itemView.cmd_fish_03.visibility = View.VISIBLE
                      "a04" -> itemView.cmd_milk_04.visibility = View.VISIBLE
                      "a05" -> itemView.cmd_nuts_05.visibility = View.VISIBLE
+                     "a06" -> itemView.cmd_seafood_06.visibility = View.VISIBLE
                  }
              }
+             itemView.setOnClickListener(object: View.OnClickListener{
+                 override fun onClick(v: View?)
+                 {
+                     Log.v("MY_LOG", "Adapter. OnClick Dish ${dish.toString()}")
+                     listener?.onDishSelected(dish)
+                 }
+
+             })
          }
     }
 }

@@ -4,21 +4,28 @@ import android.app.Activity
 import android.app.Fragment
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ListAdapter
+import android.widget.ListView
 import com.calvo.carolina.e_waiter.R
+import com.calvo.carolina.e_waiter.models.MenuLetter
+import com.calvo.carolina.e_waiter.models.Order
 import com.calvo.carolina.e_waiter.models.Table
 import com.calvo.carolina.e_waiter.models.Tables
-import kotlinx.android.synthetic.main.fragment_table.*
 
 /**
  * A placeholder fragment containing a simple view.
  */
 class TableFragment : Fragment()
 {
-    private lateinit var root_: View
+    private lateinit var _root: View
     private  val position_: Int by lazy { arguments?.getInt(ARG_TABLE_INDEX) ?: 0 }
+    private lateinit var adapter: ArrayAdapter<Order>
+
     private var onAddDishButtonClickedListener_: OnAddDishButtonClickedListener? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -26,20 +33,38 @@ class TableFragment : Fragment()
     {
         if (inflater != null)
         {
-            root_ = inflater.inflate(R.layout.fragment_table, container, false)
+            _root = inflater.inflate(R.layout.fragment_table, container, false)
             setAddDishButton()
+            setOrdersList()
         }
 
-        return root_
+        return _root
     }
     private fun setAddDishButton()
     {
-        val addDishButton  = root_.findViewById<View>(R.id.add_dish_button)
+        val addDishButton  = _root.findViewById<View>(R.id.add_dish_button)
         addDishButton.setOnClickListener { view ->
             onAddDishButtonClickedListener_?.onAddDishButtonClicked(Tables[position_])
         }
     }
 
+    private fun setOrdersList()
+    {
+        val list = _root.findViewById<ListView>(R.id.ft_orders_list)
+        adapter = ArrayAdapter<Order>(activity, android.R.layout.simple_list_item_1, Tables[position_].orders)
+        list.adapter = adapter
+
+        // Nos enteramos de que se ha pulsado un elemento de la lista así:
+        //list.setOnItemClickListener { parent, view, position, id ->
+        //    // Aviso al listener
+        //    onCitySelectedListener?.onCitySelected(Cities.get(position), position)
+        //}
+    }
+
+    fun addOrderToList(order: Order)
+    {
+        adapter.add(order)
+    }
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         commonAttach(context)

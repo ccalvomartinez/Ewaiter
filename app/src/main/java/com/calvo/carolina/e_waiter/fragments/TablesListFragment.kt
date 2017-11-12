@@ -44,7 +44,7 @@ class TablesListFragment : Fragment()
                 item.put("orders", "Orders: ${Tables[i].orders.size}")
                 data.add(item)
             }
-            val adapter = SimpleAdapter(activity,data,android.R.layout.simple_list_item_2, arrayOf("name", "orders"), intArrayOf(android.R.id.text1, android.R.id.text2) )
+            val adapter = SimpleAdapter(activity, data, android.R.layout.simple_list_item_2, arrayOf("name", "orders"), intArrayOf(android.R.id.text1, android.R.id.text2) )
             list.adapter = adapter
 
             // Nos enteramos de que se ha pulsado un elemento de la lista así:
@@ -78,15 +78,7 @@ class TablesListFragment : Fragment()
             onTableSelectedListener = listener
         }
     }
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
-     */
+
     interface OnTableSelectedListener
     {
         fun onTableSelected(table: Table, position: Int)

@@ -7,14 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.calvo.carolina.e_waiter.R
-import com.calvo.carolina.e_waiter.fragments.MenuFragment
 import com.calvo.carolina.e_waiter.models.Dish
 import com.calvo.carolina.e_waiter.models.MenuLetter
 import kotlinx.android.synthetic.main.content_menu_dish_item.view.*
 
 class DishRecyclerViewAdapter(): RecyclerView.Adapter<DishRecyclerViewAdapter.DishViewHolder>()
 {
-    var listener: MenuFragment.OnDishSelectedListener? = null
+    var listener: OnDishSelectedListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): DishViewHolder
     {
@@ -63,5 +62,10 @@ class DishRecyclerViewAdapter(): RecyclerView.Adapter<DishRecyclerViewAdapter.Di
 
              })
          }
+    }
+
+    interface OnDishSelectedListener
+    {
+        fun onDishSelected(dish: Dish)
     }
 }

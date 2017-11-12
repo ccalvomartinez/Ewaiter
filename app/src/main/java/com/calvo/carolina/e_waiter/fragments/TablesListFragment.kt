@@ -1,5 +1,6 @@
 package com.calvo.carolina.e_waiter.fragments
 
+import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -14,16 +15,7 @@ import android.widget.SimpleAdapter
 import com.calvo.carolina.e_waiter.R
 import com.calvo.carolina.e_waiter.models.Table
 import com.calvo.carolina.e_waiter.models.Tables
-import java.text.FieldPosition
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [TablesListFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [TablesListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TablesListFragment : Fragment()
 {
     private var onTableSelectedListener: OnTableSelectedListener? = null
@@ -64,25 +56,28 @@ class TablesListFragment : Fragment()
         return root
     }
 
-    override fun onAttach(context: Context?)
-    {
+
+    override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is OnTableSelectedListener)
-        {
-            onTableSelectedListener = context
-        }
-        else
-        {
-            throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
-        }
+        commonAttach(context)
     }
 
-    override fun onDetach()
-    {
+    @Suppress("OverridingDeprecatedMember", "DEPRECATION")
+    override fun onAttach(activity: Activity?) {
+        super.onAttach(activity)
+        commonAttach(activity)
+    }
+
+    override fun onDetach() {
         super.onDetach()
         onTableSelectedListener = null
     }
 
+    fun commonAttach(listener: Any?) {
+        if (listener is OnTableSelectedListener) {
+            onTableSelectedListener = listener
+        }
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -104,4 +99,4 @@ class TablesListFragment : Fragment()
             return TablesListFragment()
         }
     }
-}// Required empty public constructor
+}

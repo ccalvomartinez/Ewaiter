@@ -34,3 +34,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'org.jetbrains.anko:anko-coroutines:0.10.2'
 }
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}

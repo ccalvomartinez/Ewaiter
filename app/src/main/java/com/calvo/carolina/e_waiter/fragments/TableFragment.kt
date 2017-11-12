@@ -1,40 +1,82 @@
 package com.calvo.carolina.e_waiter.fragments
 
+import android.app.Activity
 import android.app.Fragment
+import android.content.Context
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.calvo.carolina.e_waiter.R
-import com.calvo.carolina.e_waiter.R.id.fab
+import com.calvo.carolina.e_waiter.models.Table
+import com.calvo.carolina.e_waiter.models.Tables
+import kotlinx.android.synthetic.main.fragment_table.*
 
 /**
  * A placeholder fragment containing a simple view.
  */
 class TableFragment : Fragment()
 {
-    private lateinit var _root: View
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+    private lateinit var root_: View
+    private  val position_: Int by lazy { arguments?.getInt(ARG_TABLE_INDEX) ?: 0 }
+    private var onAddDishButtonClickedListener_: OnAddDishButtonClickedListener? = null
+
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View?
     {
-
-        _root = inflater.inflate(R.layout.fragment_table, container, false)
-        val fab = _root.findViewById<FloatingActionButton>(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+        if (inflater != null)
+        {
+            root_ = inflater.inflate(R.layout.fragment_table, container, false)
+            setAddDishButton()
         }
 
-        return _root
+        return root_
+    }
+    private fun setAddDishButton()
+    {
+        val addDishButton  = root_.findViewById<View>(R.id.add_dish_button)
+        addDishButton.setOnClickListener { view ->
+            onAddDishButtonClickedListener_?.onAddDishButtonClicked(Tables[position_])
+        }
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        commonAttach(context)
+    }
+
+    @Suppress("OverridingDeprecatedMember", "DEPRECATION")
+    override fun onAttach(activity: Activity?) {
+        super.onAttach(activity)
+        commonAttach(activity)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        onAddDishButtonClickedListener_ = null
+    }
+
+    private fun commonAttach(listener: Any?) {
+        if (listener is OnAddDishButtonClickedListener) {
+            onAddDishButtonClickedListener_ = listener
+        }
+    }
+    interface OnAddDishButtonClickedListener
+    {
+        fun onAddDishButtonClicked(table: Table)
     }
 
     companion object
     {
-        fun newInstance(): TableFragment
+        val ARG_TABLE_INDEX = "ARG_TABLE_INDEX"
+        fun newInstance(tableIndex: Int): TableFragment
         {
-            return TableFragment()
+            val arguments = Bundle()
+            arguments.putInt(ARG_TABLE_INDEX, tableIndex)
+            val fragment = TableFragment()
+            fragment.arguments = arguments
+
+            return fragment
         }
     }
 }

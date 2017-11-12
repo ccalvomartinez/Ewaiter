@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">E-Waiter</string>
+    <string name="action_settings">Settings</string>
+    <string name="allergen_gluten">Contiene gluten</string>
+    <string name="allegerns_egg">Contiene huevo</string>
+    <string name="allergens_milk">Contiene lácteos</string>
 </resources>

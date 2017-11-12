@@ -6,16 +6,18 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import com.calvo.carolina.e_waiter.R
+import com.calvo.carolina.e_waiter.fragments.TablesListFragment
 import com.calvo.carolina.e_waiter.models.Dish
 import com.calvo.carolina.e_waiter.models.Order
 import com.calvo.carolina.e_waiter.models.Table
 import com.calvo.carolina.e_waiter.models.Tables
-
+import com.calvo.carolina.e_waiter.utils.loadFragment
 import kotlinx.android.synthetic.main.activity_table.*
 
 class TableActivity : AppCompatActivity()
@@ -36,24 +38,18 @@ class TableActivity : AppCompatActivity()
     private val position_ : Int by lazy { intent.getIntExtra(EXTRA_TABLE_POSITION, 0) }
     private val table_ : Table by lazy { Tables[intent.getIntExtra(EXTRA_TABLE_POSITION, 0)] }
     private lateinit var adapter: ArrayAdapter<Order>
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_table)
-
+        loadFragment(this, R.id.at_table_list_fragment, TablesListFragment.newInstance())
         setActionBar()
         setAddDishButton()
         setOrdersList()
     }
 
-    private fun setActionBar()
-    {
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = table_.name
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQ_MENU_ACTIVITY && resultCode == Activity.RESULT_OK)
@@ -71,15 +67,12 @@ class TableActivity : AppCompatActivity()
         else if (requestCode == REQ_EDIT_ORDER_ACTIVITY && resultCode == Activity.RESULT_OK)
         {
             //TODO("Quitar todo los logs")
-            Log.v("MY_TAG", "Table Actuvity. De vuelta de editar")
 
             if (data != null)
             {
                 val order = data.getSerializableExtra(EditOrderActivity.RETURNED_ORDER) as? Order
                 if (order != null)
                 {
-                    Log.v("MY_TAG", "Table activity. Añadiento pedido a la mesa ${order}")
-
                     table_.orders.add(order)
                     adapter.notifyDataSetChanged()
                     invalidateOptionsMenu()
@@ -119,6 +112,14 @@ class TableActivity : AppCompatActivity()
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun setActionBar()
+    {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = table_.name
+    }
+
     private fun setAddDishButton()
     {
         val addDishButton  = findViewById<View>(R.id.add_dish_button)
@@ -129,7 +130,7 @@ class TableActivity : AppCompatActivity()
 
     private fun setOrdersList()
     {
-        val list = findViewById<ListView>(R.id.ft_orders_list)
+        val list = findViewById<ListView>(R.id.at_orders_list)
         adapter = ArrayAdapter<Order>(this, android.R.layout.simple_list_item_1, Tables[position_].orders)
         list.adapter = adapter
 

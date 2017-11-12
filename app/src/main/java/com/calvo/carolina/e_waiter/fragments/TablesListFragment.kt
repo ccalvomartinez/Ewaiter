@@ -18,10 +18,19 @@ import com.calvo.carolina.e_waiter.models.Tables
 
 class TablesListFragment : Fragment()
 {
+    companion object
+    {
+        fun newInstance(): TablesListFragment
+        {
+            return TablesListFragment()
+        }
+    }
+
     private var onTableSelectedListener: OnTableSelectedListener? = null
     private lateinit var root: View
     private var _data = ArrayList<HashMap<String, Any>>()
     private lateinit var adapter: SimpleAdapter
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -48,7 +57,6 @@ class TablesListFragment : Fragment()
         return root
     }
 
-
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         commonAttach(context)
@@ -70,6 +78,7 @@ class TablesListFragment : Fragment()
         calculateData()
         adapter.notifyDataSetInvalidated()
     }
+
     private fun calculateData()
     {
         _data.clear()
@@ -82,6 +91,7 @@ class TablesListFragment : Fragment()
             _data.add(item)
         }
     }
+
     private fun commonAttach(listener: Any?) {
         if (listener is OnTableSelectedListener) {
             onTableSelectedListener = listener
@@ -93,11 +103,4 @@ class TablesListFragment : Fragment()
         fun onTableSelected(table: Table, position: Int)
     }
 
-    companion object
-    {
-        fun newInstance(): TablesListFragment
-        {
-            return TablesListFragment()
-        }
-    }
 }

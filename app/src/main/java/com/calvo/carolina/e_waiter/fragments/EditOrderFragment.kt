@@ -1,9 +1,9 @@
 package com.calvo.carolina.e_waiter.fragments
 
-import android.content.Context
-import android.net.Uri
-import android.os.Bundle
+import android.app.Activity
 import android.app.Fragment
+import android.content.Context
+import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,21 +11,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-
 import com.calvo.carolina.e_waiter.R
 import com.calvo.carolina.e_waiter.models.Order
 import kotlinx.android.synthetic.main.fragment_edit_order.view.*
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [EditOrderFragment.OnEditOrderListener] interface
- * to handle interaction events.
- * Use the [EditOrderFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class EditOrderFragment : Fragment()
 {
+    companion object
+    {
+        private val ARG_ORDER = "ARG_ORDER"
+
+        fun newInstance(order: Order): EditOrderFragment
+        {
+            val fragment = EditOrderFragment()
+            val args = Bundle()
+            args.putSerializable(ARG_ORDER, order)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
     private lateinit var _order: Order
     private lateinit var _root: View
     private var onEditOrderListener: OnEditOrderListener? = null
@@ -39,8 +44,7 @@ class EditOrderFragment : Fragment()
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View?
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         if (inflater != null)
         {
@@ -51,11 +55,29 @@ class EditOrderFragment : Fragment()
         return _root
     }
 
+    override fun onAttach(context: Context?)
+    {
+        super.onAttach(context)
+        commonAttach(context)
+    }
+
+    @Suppress("OverridingDeprecatedMember", "DEPRECATION")
+    override fun onAttach(activity: Activity?)
+    {
+        super.onAttach(activity)
+        commonAttach(activity)
+    }
+
+    override fun onDetach()
+    {
+        super.onDetach()
+        onEditOrderListener = null
+    }
+
     private fun setButtonListeners()
     {
         _root.findViewById<View>(R.id.feo_add_button).setOnClickListener { accepChanges() }
         _root.findViewById<View>(R.id.feo_cancel_button).setOnClickListener { cancelChanges() }
-        Log.v("MY_TAG", "Click listeners")
     }
 
     private fun setUpOrder()
@@ -91,7 +113,6 @@ class EditOrderFragment : Fragment()
     private fun accepChanges()
     {
         _order.notes = _root.findViewById<TextView>(R.id.feo_notes_text).text.toString()
-        Log.v("MY_TAG", "Edit Order fragment. Accept changes ${_order}")
         onEditOrderListener?.onAcceptChanges(_order)
     }
 
@@ -100,23 +121,12 @@ class EditOrderFragment : Fragment()
         onEditOrderListener?.onCancelChanges(_order)
     }
 
-    override fun onAttach(context: Context?)
+    private fun commonAttach(listener: Any?)
     {
-        super.onAttach(context)
-        if (context is OnEditOrderListener)
+        if (listener is OnEditOrderListener)
         {
-            onEditOrderListener = context
+            onEditOrderListener = listener
         }
-        else
-        {
-            throw RuntimeException(context!!.toString() + " must implement onEditOrderListener")
-        }
-    }
-
-    override fun onDetach()
-    {
-        super.onDetach()
-        onEditOrderListener = null
     }
 
     interface OnEditOrderListener
@@ -125,17 +135,4 @@ class EditOrderFragment : Fragment()
         fun onCancelChanges(order:Order)
     }
 
-    companion object
-    {
-        private val ARG_ORDER = "ARG_ORDER"
-
-        fun newInstance(order: Order): EditOrderFragment
-        {
-            val fragment = EditOrderFragment()
-            val args = Bundle()
-            args.putSerializable(ARG_ORDER, order)
-            fragment.arguments = args
-            return fragment
-        }
-    }
 }

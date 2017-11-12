@@ -2,7 +2,6 @@ package com.calvo.carolina.e_waiter.adapters
 
 import android.os.Build
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,10 +55,8 @@ class DishRecyclerViewAdapter(): RecyclerView.Adapter<DishRecyclerViewAdapter.Di
              itemView.setOnClickListener(object: View.OnClickListener{
                  override fun onClick(v: View?)
                  {
-                     Log.v("MY_LOG", "Adapter. OnClick Dish ${dish.toString()}")
                      listener?.onDishSelected(dish)
                  }
-
              })
          }
     }

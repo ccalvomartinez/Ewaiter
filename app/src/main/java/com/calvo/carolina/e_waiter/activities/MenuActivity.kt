@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import com.calvo.carolina.e_waiter.R
 import com.calvo.carolina.e_waiter.adapters.DishRecyclerViewAdapter
 import com.calvo.carolina.e_waiter.models.Dish
@@ -28,18 +27,20 @@ class MenuActivity : AppCompatActivity()
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
-        //TODO("Conseguir que funcione el botón de atrás")
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = getString(R.string.menu_activity_menu_letter)
         setDishesRecycleView()
     }
+
     private fun returnDish(dish: Dish)
     {
-        Log.v("MY_LOG", "Menu activity. OnDishSelected Dish ${dish.toString()}")
         val returnIntent = Intent()
         returnIntent.putExtra(EXTRA_SELECTED_DISH, dish)
         setResult(Activity.RESULT_OK, returnIntent)
         finish()
     }
+
     private fun setDishesRecycleView()
     {
         val dishesList_ = findViewById<RecyclerView>(R.id.fm_dishes_menu_list)

@@ -26,10 +26,12 @@ class TableListActivity : AppCompatActivity(), TablesListFragment.OnTableSelecte
     {
         val REQ_TABLE = 231
     }
+
     enum class VIEW_INDEX(val index: Int) {
         LOADING(0),
         TABLES(1)
     }
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -37,11 +39,7 @@ class TableListActivity : AppCompatActivity(), TablesListFragment.OnTableSelecte
 
         loadFragment(this,R.id.atl_fragment_table_list,TablesListFragment.newInstance())
         setViewSwitcher()
-        //TODO("Encontrar otra forma de comprobar que se ha cargado el menu")
-        if (MenuLetter.dishes.size == 0)
-        {
-            loadMenu()
-        }
+        loadMenu()
 
     }
 
@@ -59,6 +57,7 @@ class TableListActivity : AppCompatActivity(), TablesListFragment.OnTableSelecte
             tablesListFragment?.onDataChanged()
         }
     }
+
     private  fun setViewSwitcher()
     {
         view_switcher.setInAnimation(this, android.R.anim.fade_in)
@@ -67,31 +66,38 @@ class TableListActivity : AppCompatActivity(), TablesListFragment.OnTableSelecte
 
     private  fun loadMenu()
     {
-        view_switcher.displayedChild = VIEW_INDEX.LOADING.index
-        val activity = this
-        async(UI) {
-            val newDishesDownloader: Deferred<List<Dish>?> = bg {
-                downloadDishes()
-            }
+        if (MenuLetter.dishes.size == 0){
+            view_switcher.displayedChild = VIEW_INDEX.LOADING.index
+            val activity = this
+            async(UI) {
+                val newDishesDownloader: Deferred<List<Dish>?> = bg {
+                    downloadDishes()
+                }
 
-            val downloadedDishes = newDishesDownloader.await()
-            view_switcher.displayedChild = VIEW_INDEX.TABLES.index
-            if (downloadedDishes != null) {
-                val r = MenuLetter.dishes.addAll(0, downloadedDishes)
-            }
-            else {
-                // Ha habido algún tipo de error, se lo decimos al usuario con un diálogo
-                AlertDialog.Builder(activity)
-                        .setTitle("Error")
-                        .setMessage("Error while downloading menu. Check your internet connection.")
-                        .setPositiveButton("Retry", { dialog, _ ->
-                            dialog.dismiss()
-                            loadMenu()
-                        })
-                        .setNegativeButton("Exit", { _, _ -> activity.finish() })
-                        .show()
+                val downloadedDishes = newDishesDownloader.await()
+                view_switcher.displayedChild = VIEW_INDEX.TABLES.index
+                if (downloadedDishes != null) {
+                    val r = MenuLetter.dishes.addAll(0, downloadedDishes)
+                }
+                else {
+                    // Ha habido algún tipo de error, se lo decimos al usuario con un diálogo
+                    AlertDialog.Builder(activity)
+                            .setTitle("Error")
+                            .setMessage("Error while downloading menu. Check your internet connection.")
+                            .setPositiveButton("Retry", { dialog, _ ->
+                                dialog.dismiss()
+                                loadMenu()
+                            })
+                            .setNegativeButton("Exit", { _, _ -> activity.finish() })
+                            .show()
+                }
             }
         }
+        else
+        {
+            view_switcher.displayedChild = VIEW_INDEX.TABLES.index
+        }
+
     }
 
     private fun downloadDishes(): List<Dish>?

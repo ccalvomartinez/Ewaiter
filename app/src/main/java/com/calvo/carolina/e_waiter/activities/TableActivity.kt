@@ -10,6 +10,7 @@ import android.widget.ListView
 import android.widget.ArrayAdapter
 import com.calvo.carolina.e_waiter.R
 import com.calvo.carolina.e_waiter.fragments.TableFragment
+import com.calvo.carolina.e_waiter.fragments.TablesListFragment
 import com.calvo.carolina.e_waiter.models.Dish
 import com.calvo.carolina.e_waiter.models.Order
 import com.calvo.carolina.e_waiter.models.Table
@@ -86,7 +87,7 @@ class TableActivity : AppCompatActivity(), TableFragment.OnAddDishButtonClickedL
 
                     val fragment = fragmentManager.findFragmentById(R.id.at_fragment_table) as? TableFragment
                     fragment?.addOrderToList(order)
-
+                    setResult(Activity.RESULT_OK)
                 }
             }
 

@@ -1,6 +1,8 @@
 package com.calvo.carolina.e_waiter.activities
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.calvo.carolina.e_waiter.R
@@ -20,7 +22,10 @@ import java.util.*
 
 class TableListActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedListener
 {
-
+    companion object
+    {
+        val REQ_TABLE = 231
+    }
     enum class VIEW_INDEX(val index: Int) {
         LOADING(0),
         TABLES(1)
@@ -42,9 +47,18 @@ class TableListActivity : AppCompatActivity(), TablesListFragment.OnTableSelecte
 
     override fun onTableSelected(table: Table, position: Int)
     {
-        startActivity(TableActivity.intent(this, position))
+        startActivityForResult(TableActivity.intent(this, position), REQ_TABLE)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == REQ_TABLE && resultCode == Activity.RESULT_OK)
+        {
+            val tablesListFragment = fragmentManager.findFragmentById(R.id.atl_fragment_table_list) as? TablesListFragment
+            tablesListFragment?.onDataChanged()
+        }
+    }
     private  fun setViewSwitcher()
     {
         view_switcher.setInAnimation(this, android.R.anim.fade_in)
@@ -84,8 +98,7 @@ class TableListActivity : AppCompatActivity(), TablesListFragment.OnTableSelecte
     {
         try {
             // Nos descargamos la información machete
-            //TODO("Guardar la url el un fichero de constantes")
-            val url = URL("http://www.mocky.io/v2/5a08443d2f0000e41fe61145")
+            val url = URL(urlMenuLetter)
             val jsonString = Scanner(url.openStream(), "UTF-8").useDelimiter("\\A").next()
 
             // Analizamos los datos que nos acabamos de descargar

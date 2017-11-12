@@ -46,6 +46,7 @@ class EditOrderActivity : AppCompatActivity(), EditOrderFragment.OnEditOrderList
 
     override fun onCancelChanges(order: Order)
     {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        setResult(Activity.RESULT_CANCELED)
+        finish()
     }
 }

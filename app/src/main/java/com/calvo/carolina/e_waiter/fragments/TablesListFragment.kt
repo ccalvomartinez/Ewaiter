@@ -20,7 +20,8 @@ class TablesListFragment : Fragment()
 {
     private var onTableSelectedListener: OnTableSelectedListener? = null
     private lateinit var root: View
-
+    private var _data = ArrayList<HashMap<String, Any>>()
+    private lateinit var adapter: SimpleAdapter
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -34,17 +35,8 @@ class TablesListFragment : Fragment()
             root = inflater.inflate(R.layout.fragment_tables_list, container, false)
 
             val list = root.findViewById<ListView>(R.id.ftl_table_list_view)
-            //TODO("Mover todo esto a un ViewModel")
-            val data = ArrayList<HashMap<String, Any>>()
-
-            for (i in 0 until Tables.count)
-            {
-                val item = HashMap<String, Any>()
-                item.put("name", Tables[i].name)
-                item.put("orders", "Orders: ${Tables[i].orders.size}")
-                data.add(item)
-            }
-            val adapter = SimpleAdapter(activity, data, android.R.layout.simple_list_item_2, arrayOf("name", "orders"), intArrayOf(android.R.id.text1, android.R.id.text2) )
+            calculateData()
+            adapter = SimpleAdapter(activity, _data, android.R.layout.simple_list_item_2, arrayOf("name", "orders"), intArrayOf(android.R.id.text1, android.R.id.text2) )
             list.adapter = adapter
 
             // Nos enteramos de que se ha pulsado un elemento de la lista así:
@@ -73,7 +65,24 @@ class TablesListFragment : Fragment()
         onTableSelectedListener = null
     }
 
-    fun commonAttach(listener: Any?) {
+    fun onDataChanged()
+    {
+        calculateData()
+        adapter.notifyDataSetInvalidated()
+    }
+    private fun calculateData()
+    {
+        _data.clear()
+
+        for (i in 0 until Tables.count)
+        {
+            val item = HashMap<String, Any>()
+            item.put("name", Tables[i].name)
+            item.put("orders", "Orders: ${Tables[i].orders.size}")
+            _data.add(item)
+        }
+    }
+    private fun commonAttach(listener: Any?) {
         if (listener is OnTableSelectedListener) {
             onTableSelectedListener = listener
         }

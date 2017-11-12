@@ -13,8 +13,12 @@
         android:layout_margin="@dimen/app_margin"
         android:indeterminate="true" />
     <FrameLayout
-        android:id="@+id/atl_fragment_table_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/atl_table_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
 
 </ViewSwitcher>

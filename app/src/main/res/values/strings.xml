@@ -9,4 +9,6 @@
     <string name="feo_notas">Notas</string>
     <string name="feo_add_button" >Añadir</string>
     <string name="feo_dish_image">Imagen del plato</string>
+    <string name="menu_item_calcular_cuenta">Calcular cuenta</string>
+    <string name="menu_calcular_cuenta_ready">Listo</string>
 </resources>

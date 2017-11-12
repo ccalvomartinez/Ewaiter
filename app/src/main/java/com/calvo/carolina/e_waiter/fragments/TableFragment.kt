@@ -1,13 +1,12 @@
 package com.calvo.carolina.e_waiter.fragments
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Fragment
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.ListAdapter
 import android.widget.ListView
@@ -28,6 +27,12 @@ class TableFragment : Fragment()
 
     private var onAddDishButtonClickedListener_: OnAddDishButtonClickedListener? = null
 
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View?
     {
@@ -39,6 +44,35 @@ class TableFragment : Fragment()
         }
 
         return _root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?)
+    {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.menu_table, menu)
+    }
+
+        override fun onPrepareOptionsMenu(menu: Menu?)
+    {
+        super.onPrepareOptionsMenu(menu)
+        menu?.findItem(R.id.menu_calculate_bill)?.setEnabled(Tables[position_].orders.size != 0)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean
+    {
+        if (item?.itemId == R.id.menu_calculate_bill)
+        {
+            val total = Tables[position_].orders.map { order -> order.dish.price }.sum()
+
+            AlertDialog.Builder(activity)
+                    .setTitle("Cuenta de la mesa ${position_}")
+                    .setMessage("El total de la cuenta es ${total}€")
+                    .setPositiveButton(getString(R.string.menu_calcular_cuenta_ready), { dialog, _ ->
+                        dialog.dismiss()
+                    })
+                    .show()
+        }
+        return super.onOptionsItemSelected(item)
     }
     private fun setAddDishButton()
     {
@@ -64,6 +98,7 @@ class TableFragment : Fragment()
     fun addOrderToList(order: Order)
     {
         adapter.add(order)
+        activity.invalidateOptionsMenu()
     }
     override fun onAttach(context: Context?) {
         super.onAttach(context)

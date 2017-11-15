@@ -1,26 +1,35 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-
-    android:layout_marginStart="@dimen/feo_inner_margin"
-    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/app_margin"
     tools:context="com.calvo.carolina.e_waiter.fragments.EditOrderFragment">
 
     <ImageView
         android:id="@+id/feo_image_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/feo_inner_margin"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/feo_dish_image"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/feo_allergens"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline"
         tools:src="@drawable/i01" />
-
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.35" />
     <LinearLayout
         android:id="@+id/feo_allergens"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="horizontal">
 
         <ImageView
@@ -29,7 +38,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/allergen_gluten"
-            android:maxWidth="32dp"
+            android:maxWidth="40dp"
             android:src="@drawable/a01"
             android:visibility="gone"
             tools:visibility="visible" />
@@ -40,7 +49,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/allegerns_egg"
-            android:maxWidth="32dp"
+            android:maxWidth="40dp"
             android:src="@drawable/a02"
             android:visibility="gone"
             tools:visibility="visible" />
@@ -51,7 +60,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/allegerns_egg"
-            android:maxWidth="32dp"
+            android:maxWidth="40dp"
             android:src="@drawable/a03"
             android:visibility="gone"
             tools:visibility="visible" />
@@ -62,7 +71,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/allergens_milk"
-            android:maxWidth="32dp"
+            android:maxWidth="40dp"
             android:src="@drawable/a04"
             android:visibility="gone"
             tools:visibility="visible" />
@@ -73,7 +82,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/allergens_nuts"
-            android:maxWidth="32dp"
+            android:maxWidth="40dp"
             android:src="@drawable/a05"
             android:visibility="gone"
             tools:visibility="visible" />
@@ -84,7 +93,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/allergens_seafood"
-            android:maxWidth="32dp"
+            android:maxWidth="40dp"
             android:src="@drawable/a06"
             android:visibility="gone"
             tools:visibility="visible" />
@@ -92,45 +101,60 @@
 
     <TextView
         android:id="@+id/feo_description_texts"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/feo_inner_margin"
-        android:layout_marginTop="@dimen/feo_inner_margin"
+        android:layout_marginStart="8dp"
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guideline"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer est diam, pharetra ac neque eget, posuere accumsan ex. " />
 
     <TextView
         android:id="@+id/label_notes_text"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/feo_inner_margin"
-        android:layout_marginTop="@dimen/feo_inner_margin"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
         android:labelFor="@+id/feo_notes_text"
         android:text="@string/feo_notas"
+        android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@color/colorAccent" />
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/feo_image_view"
+        app:layout_constraintTop_toBottomOf="@id/feo_description_texts" />
 
     <EditText
         android:id="@+id/feo_notes_text"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
-        android:layout_marginBottom="@dimen/feo_inner_margin"
-        android:layout_marginTop="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+        app:layout_constraintStart_toEndOf="@+id/feo_image_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/label_notes_text"
+        app:layout_constraintBottom_toTopOf="@id/feo_allergens"
         tools:text="La ensalada sin tomate" />
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/feo_image_view">
 
         <Button
             android:id="@+id/feo_cancel_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@android:string/cancel"
             android:layout_weight="1"
+            android:text="@android:string/cancel"
             style="@style/Base.TextAppearance.AppCompat.Widget.Button"/>
 
         <Button
@@ -142,4 +166,4 @@
             style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"/>
     </LinearLayout>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

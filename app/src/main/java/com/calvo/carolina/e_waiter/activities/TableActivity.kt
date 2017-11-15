@@ -58,17 +58,27 @@ class TableActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedLis
      override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQ_MENU_ACTIVITY && resultCode == Activity.RESULT_OK)
+        if (requestCode == REQ_MENU_ACTIVITY)
         {
             if (data != null)
             {
-                val dish = data.getSerializableExtra(MenuActivity.EXTRA_SELECTED_DISH) as? Dish
-                if (dish != null)
+                when(resultCode)
                 {
-                    startActivityForResult(EditOrderActivity.intent(this, Order(dish)), REQ_EDIT_ORDER_ACTIVITY)
+                    Activity.RESULT_OK ->
+                    {
+                        val dish = data.getSerializableExtra(MenuActivity.EXTRA_SELECTED_DISH) as? Dish
+                        if (dish != null)
+                        {
+                            startActivityForResult(EditOrderActivity.intent(this, Order(dish)), REQ_EDIT_ORDER_ACTIVITY)
+                        }
+                    }
+                    MenuActivity.RESULT_OTHER_TABLE_SELECTED ->
+                    {
+                        changeTable(data.getIntExtra(MenuActivity.EXTRA_SELECTED_TABLE_POSITION, 0))
+                        startActivityForResult(MenuActivity.intent(this, _position), REQ_MENU_ACTIVITY)
+                    }
                 }
             }
-
         }
         else if (requestCode == REQ_EDIT_ORDER_ACTIVITY && resultCode == Activity.RESULT_OK)
         {
@@ -89,7 +99,6 @@ class TableActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedLis
                     tablesListFragment?.onDataChanged()
                 }
             }
-
         }
     }
 
@@ -125,9 +134,7 @@ class TableActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedLis
 
     override fun onTableSelected(position: Int)
     {
-        _position = position
-        updateActionBarTitle()
-        setOrdersList()
+        changeTable(position)
     }
 
     private fun initializeLateinitVariables()
@@ -149,7 +156,7 @@ class TableActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedLis
     {
         val addDishButton  = findViewById<View>(R.id.add_dish_button)
         addDishButton.setOnClickListener { view ->
-            startActivityForResult(MenuActivity.intent(this), REQ_MENU_ACTIVITY)
+            startActivityForResult(MenuActivity.intent(this, _position), REQ_MENU_ACTIVITY)
         }
     }
 
@@ -164,5 +171,13 @@ class TableActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedLis
         //    // Aviso al listener
         //    onCitySelectedListener?.onCitySelected(Cities.get(position), position)
         //}
+    }
+
+    private fun changeTable(position: Int)
+    {
+        _position = position
+        updateActionBarTitle()
+        setOrdersList()
+        invalidateOptionsMenu()
     }
 }

@@ -11,5 +11,5 @@
     <string name="feo_dish_image">Imagen del plato</string>
     <string name="menu_item_calcular_cuenta">Calcular cuenta</string>
     <string name="menu_calcular_cuenta_ready">Listo</string>
-    <string name="menu_activity_menu_letter">Carta</string>
+    <string name="menu_activity_menu_letter">Añadir plato a %s</string>
 </resources>

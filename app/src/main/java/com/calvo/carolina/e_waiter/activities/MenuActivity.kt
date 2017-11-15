@@ -10,17 +10,33 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.calvo.carolina.e_waiter.R
 import com.calvo.carolina.e_waiter.adapters.DishRecyclerViewAdapter
+import com.calvo.carolina.e_waiter.fragments.TablesListFragment
 import com.calvo.carolina.e_waiter.models.Dish
+import com.calvo.carolina.e_waiter.models.Tables
+import com.calvo.carolina.e_waiter.utils.loadFragment
 
-class MenuActivity : AppCompatActivity()
+class MenuActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedListener
 {
     companion object
     {
         val EXTRA_SELECTED_DISH = "EXTRA_SELECTED_DISH"
-        fun intent(context: Context): Intent
+        val RESULT_OTHER_TABLE_SELECTED = 345
+        val EXTRA_SELECTED_TABLE_POSITION = "EXTRA_SELECTED_TABLE_POSITION"
+        val EXTRA_INITIAL_TABLE_POSITION = "EXTRA_INITIAL_TABLE_POSITION "
+
+        fun intent(context: Context, position: Int): Intent
         {
-            return Intent(context, MenuActivity::class.java)
+            val intent = Intent(context, MenuActivity::class.java)
+            intent.putExtra(EXTRA_INITIAL_TABLE_POSITION, position)
+            return intent
         }
+    }
+
+    private  var _position: Int = 0
+    set(value)
+    {
+        field = value
+        supportActionBar?.title = getString(R.string.menu_activity_menu_letter, Tables[value].name)
     }
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -28,22 +44,40 @@ class MenuActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
+        initializeLateInitVariables()
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = getString(R.string.menu_activity_menu_letter)
+
+        loadFragment(this, R.id.am_table_list_fragment, TablesListFragment.newInstance())
+
         setDishesRecycleView()
     }
 
-    private fun returnDish(dish: Dish)
+    override fun onTableSelected(position: Int)
+    {
+        _position = position
+        val returnIntent = Intent()
+        returnIntent.putExtra(EXTRA_SELECTED_TABLE_POSITION, position)
+        setResult(RESULT_OTHER_TABLE_SELECTED, returnIntent)
+        finish()
+    }
+
+    private fun initializeLateInitVariables()
+    {
+        _position = intent.getIntExtra(EXTRA_INITIAL_TABLE_POSITION, 0)
+    }
+
+    // TODO("Refactor this")
+    private fun returnDishToParentActivityAndFinish(dish: Dish)
     {
         val returnIntent = Intent()
         returnIntent.putExtra(EXTRA_SELECTED_DISH, dish)
         setResult(Activity.RESULT_OK, returnIntent)
         finish()
     }
-
     private fun setDishesRecycleView()
     {
-        val dishesList_ = findViewById<RecyclerView>(R.id.fm_dishes_menu_list)
+        val dishesList_ = findViewById<RecyclerView>(R.id.am_dishes_menu_list)
         dishesList_.layoutManager = LinearLayoutManager(this)
         dishesList_.itemAnimator = DefaultItemAnimator()
         val dishesAdapter = DishRecyclerViewAdapter()
@@ -51,7 +85,7 @@ class MenuActivity : AppCompatActivity()
         {
             override fun onDishSelected(dish: Dish)
             {
-                returnDish(dish)
+                returnDishToParentActivityAndFinish(dish)
             }
         }
         dishesList_.adapter = dishesAdapter

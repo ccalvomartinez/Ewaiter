@@ -5,8 +5,9 @@
     android:layout_height="match_parent"
     tools:context="com.calvo.carolina.e_waiter.activities.MenuActivity">
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/fm_dishes_menu_list"
+        android:id="@+id/am_dishes_menu_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        />
 
 </FrameLayout>

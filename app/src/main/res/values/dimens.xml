@@ -3,4 +3,5 @@
     <dimen name="app_margin">16dp</dimen>
     <dimen name="inner_margin">4dp</dimen>
     <dimen name="feo_inner_margin">8dp</dimen>
+    <dimen name="allergens_icon_size">24dp</dimen>
 </resources>

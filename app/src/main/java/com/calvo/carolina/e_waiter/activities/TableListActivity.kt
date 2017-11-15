@@ -43,7 +43,7 @@ class TableListActivity : AppCompatActivity(), TablesListFragment.OnTableSelecte
 
     }
 
-    override fun onTableSelected(table: Table, position: Int)
+    override fun onTableSelected(position: Int)
     {
         startActivityForResult(TableActivity.intent(this, position), REQ_TABLE)
     }

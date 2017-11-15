@@ -51,7 +51,7 @@ class TablesListFragment : Fragment()
             // Nos enteramos de que se ha pulsado un elemento de la lista así:
             list.setOnItemClickListener { parent, view, position, id ->
                 // Aviso al listener
-                onTableSelectedListener?.onTableSelected(Tables.get(position), position)
+                onTableSelectedListener?.onTableSelected(position)
             }
         }
         return root
@@ -100,7 +100,7 @@ class TablesListFragment : Fragment()
 
     interface OnTableSelectedListener
     {
-        fun onTableSelected(table: Table, position: Int)
+        fun onTableSelected(position: Int)
     }
 
 }

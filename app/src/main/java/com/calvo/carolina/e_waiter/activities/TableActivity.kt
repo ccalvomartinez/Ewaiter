@@ -131,7 +131,7 @@ class TableActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedLis
             val total = Tables[_position].orders.map { order -> order.dish.price }.sum()
 
             AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.table_act_cuenta_mesa, _position))
+                    .setTitle(getString(R.string.table_act_cuenta_mesa, Tables[_position].name))
                     .setMessage(getString(R.string.table_act_total_cuenta, total))
                     .setPositiveButton(getString(R.string.menu_calcular_cuenta_ready), { dialog, _ ->
                         dialog.dismiss()

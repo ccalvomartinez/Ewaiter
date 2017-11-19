@@ -13,7 +13,7 @@
     <string name="menu_calcular_cuenta_ready">Listo</string>
     <string name="menu_activity_menu_letter">Añadir plato a %s</string>
     <string name="edit_dish_guardar">Guardar</string>
-    <string name="table_act_cuenta_mesa">Cuenta de la mesa %d</string>
+    <string name="table_act_cuenta_mesa">Cuenta de la mesa %s</string>
     <string name="table_act_total_cuenta">Total:  %.2f €</string>
     <string name="menu_precio">%.2f €</string>
 </resources>

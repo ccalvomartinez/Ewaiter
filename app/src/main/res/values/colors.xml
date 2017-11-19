@@ -5,7 +5,4 @@
     <color name="colorAccent">#FF5722</color>
     <color name="colorPrimaryLight">#FFECB3</color>
     <color name="textColorPrimary">#212121</color>
-    <color name="textColor">#FFFFFF</color>
-    <color name="textSecondaryColor">#757575</color>
-    <color name="dividerColor">#BDBDBD</color>
 </resources>

@@ -9,7 +9,6 @@ import com.calvo.carolina.e_waiter.R
 import com.calvo.carolina.e_waiter.fragments.TablesListFragment
 import com.calvo.carolina.e_waiter.models.Dish
 import com.calvo.carolina.e_waiter.models.MenuLetter
-import com.calvo.carolina.e_waiter.models.Table
 import com.calvo.carolina.e_waiter.utils.*
 import kotlinx.android.synthetic.main.activity_table_list.*
 import kotlinx.coroutines.experimental.Deferred

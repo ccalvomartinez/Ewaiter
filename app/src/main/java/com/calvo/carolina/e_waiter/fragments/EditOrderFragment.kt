@@ -5,10 +5,10 @@ import android.app.Fragment
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.calvo.carolina.e_waiter.R
@@ -20,20 +20,22 @@ class EditOrderFragment : Fragment()
     companion object
     {
         private val ARG_ORDER = "ARG_ORDER"
-
-        fun newInstance(order: Order): EditOrderFragment
+        private val EDIT_MODE = "EDIT_MODE"
+        fun newInstance(order: Order, editMode: Boolean): EditOrderFragment
         {
             val fragment = EditOrderFragment()
             val args = Bundle()
             args.putSerializable(ARG_ORDER, order)
+            args.putBoolean(EDIT_MODE, editMode)
             fragment.arguments = args
             return fragment
         }
     }
 
     private lateinit var _order: Order
+    private var _editMode: Boolean = false
     private lateinit var _root: View
-    private var onEditOrderListener: OnEditOrderListener? = null
+    private var _onEditOrderListener: OnEditOrderListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -41,6 +43,7 @@ class EditOrderFragment : Fragment()
         if (arguments != null)
         {
             _order = arguments.getSerializable(ARG_ORDER) as Order
+            _editMode = arguments.getBoolean(EDIT_MODE)
         }
     }
 
@@ -71,7 +74,7 @@ class EditOrderFragment : Fragment()
     override fun onDetach()
     {
         super.onDetach()
-        onEditOrderListener = null
+        _onEditOrderListener = null
     }
 
     private fun setButtonListeners()
@@ -82,6 +85,11 @@ class EditOrderFragment : Fragment()
 
     private fun setUpOrder()
     {
+        if (_editMode)
+        {
+            _root.findViewById<Button>(R.id.feo_add_button).text = getString(R.string.edit_dish_guardar)
+            _root.findViewById<TextView>(R.id.feo_notes_text).text = _order.notes
+        }
         val imageView = _root.findViewById<ImageView>(R.id.feo_image_view)
         val descriptionText = _root.findViewById<TextView>(R.id.feo_description_texts)
         when (_order.dish.image)
@@ -89,6 +97,8 @@ class EditOrderFragment : Fragment()
             "i01" -> imageView.setImageResource(R.drawable.i01)
             "i02" -> imageView.setImageResource(R.drawable.i02)
             "i03" -> imageView.setImageResource(R.drawable.i03)
+            "i04" -> imageView.setImageResource(R.drawable.i04)
+            "i05" -> imageView.setImageResource(R.drawable.i05)
         }
         descriptionText.text = _order.dish.description
 
@@ -113,19 +123,19 @@ class EditOrderFragment : Fragment()
     private fun accepChanges()
     {
         _order.notes = _root.findViewById<TextView>(R.id.feo_notes_text).text.toString()
-        onEditOrderListener?.onAcceptChanges(_order)
+        _onEditOrderListener?.onAcceptChanges(_order)
     }
 
     private fun cancelChanges()
     {
-        onEditOrderListener?.onCancelChanges(_order)
+        _onEditOrderListener?.onCancelChanges(_order)
     }
 
     private fun commonAttach(listener: Any?)
     {
         if (listener is OnEditOrderListener)
         {
-            onEditOrderListener = listener
+            _onEditOrderListener = listener
         }
     }
 

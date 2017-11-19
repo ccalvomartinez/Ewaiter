@@ -10,7 +10,7 @@
         android:id="@+id/feo_image_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/feo_inner_margin"
         android:adjustViewBounds="true"
         android:contentDescription="@string/feo_dish_image"
         android:scaleType="centerCrop"
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/allergen_gluten"
-            android:maxWidth="40dp"
+            android:maxWidth="@dimen/edit_order_big_allergen__max_width"
             android:src="@drawable/a01"
             android:visibility="gone"
             tools:visibility="visible" />
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/allegerns_egg"
-            android:maxWidth="40dp"
+            android:maxWidth="@dimen/edit_order_big_allergen__max_width"
             android:src="@drawable/a02"
             android:visibility="gone"
             tools:visibility="visible" />
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/allegerns_egg"
-            android:maxWidth="40dp"
+            android:maxWidth="@dimen/edit_order_big_allergen__max_width"
             android:src="@drawable/a03"
             android:visibility="gone"
             tools:visibility="visible" />
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/allergens_milk"
-            android:maxWidth="40dp"
+            android:maxWidth="@dimen/edit_order_big_allergen__max_width"
             android:src="@drawable/a04"
             android:visibility="gone"
             tools:visibility="visible" />
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/allergens_nuts"
-            android:maxWidth="40dp"
+            android:maxWidth="@dimen/edit_order_big_allergen__max_width"
             android:src="@drawable/a05"
             android:visibility="gone"
             tools:visibility="visible" />
@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/allergens_seafood"
-            android:maxWidth="40dp"
+            android:maxWidth="@dimen/edit_order_big_allergen__max_width"
             android:src="@drawable/a06"
             android:visibility="gone"
             tools:visibility="visible" />
@@ -104,8 +104,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:textAlignment="viewStart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline"
         app:layout_constraintTop_toTopOf="parent"
@@ -115,7 +114,7 @@
         android:id="@+id/label_notes_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/inner_margin"
         android:layout_marginTop="24dp"
         android:labelFor="@+id/feo_notes_text"
         android:text="@string/feo_notas"
@@ -135,7 +134,6 @@
         app:layout_constraintStart_toEndOf="@+id/feo_image_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/label_notes_text"
-        app:layout_constraintBottom_toTopOf="@id/feo_allergens"
         tools:text="La ensalada sin tomate" />
 
     <LinearLayout

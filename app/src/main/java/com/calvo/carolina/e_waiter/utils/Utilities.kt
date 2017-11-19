@@ -7,9 +7,7 @@ import org.json.JSONArray
 
 fun loadFragment(activity: AppCompatActivity, fragmentId: Int, fragment: Fragment)
 {
-    // Comprobamos que en la interfaz tenemos un FrameLayout llamado city_list_fragment
     if (activity.findViewById<View>(fragmentId) != null) {
-        // Comprobamos primero que no tenemos ya añadido el fragment a nuestra jerarquía
         if (activity.fragmentManager.findFragmentById(fragmentId) == null) {
             activity.fragmentManager.beginTransaction()
                     .add(fragmentId, fragment)
@@ -20,12 +18,7 @@ fun loadFragment(activity: AppCompatActivity, fragmentId: Int, fragment: Fragmen
 
 fun JSONArray.toListOfArray(): List<String>
 {
-    val result: MutableList<String> = mutableListOf()
-
-    for (i in 0 until this.length())
-    {
-        val item = this.get(i).toString()
-        result.add(item)
-    }
-    return result
+    return (0 until length())
+            .map { get(it).toString() }
+            .toMutableList()
 }

@@ -13,7 +13,5 @@ object Tables
         get() = _tables.size
 
      operator fun get(i: Int) = _tables[i]
-
-    fun toArray() = _tables.toTypedArray()
 }
 

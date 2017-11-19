@@ -3,5 +3,8 @@
     <dimen name="app_margin">16dp</dimen>
     <dimen name="inner_margin">4dp</dimen>
     <dimen name="feo_inner_margin">8dp</dimen>
-    <dimen name="allergens_icon_size">24dp</dimen>
+    <dimen name="menu_dish_min_height">100dp</dimen>
+    <dimen name="menu_allegern_max_width">24dp</dimen>
+    <dimen name="edit_order_allegen_max_width">32dp</dimen>
+    <dimen name="edit_order_big_allergen__max_width">40dp</dimen>
 </resources>

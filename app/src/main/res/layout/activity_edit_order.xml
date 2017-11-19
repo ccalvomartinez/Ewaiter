@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.calvo.carolina.e_waiter.activities.EditOrderActivity">
 
-    <android.support.v4.widget.NestedScrollView
+    <FrameLayout
         android:id="@+id/aeo_edit_order_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

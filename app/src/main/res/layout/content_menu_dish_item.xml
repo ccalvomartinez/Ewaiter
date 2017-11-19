@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/inner_margin"
+    android:minHeight="@dimen/menu_dish_min_height"
     android:background="@android:color/white"
     android:padding="@dimen/app_margin">
 
@@ -13,27 +14,30 @@
         android:id="@+id/cmd_dish_name_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/cmd_gluten_01"
+        app:layout_constraintBottom_toTopOf="@+id/cmd_allergens"
         app:layout_constraintEnd_toStartOf="@+id/cmd_dish_price_text"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Huevos fritos con patatas" />
-
+<LinearLayout
+    android:id="@+id/cmd_allergens"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/cmd_dish_name_text">
     <ImageView
         android:id="@+id/cmd_gluten_01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:contentDescription="@string/allergen_gluten"
-        android:maxWidth="24dp"
+        android:maxWidth="@dimen/menu_allegern_max_width"
         android:src="@drawable/a01"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cmd_egg_02"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cmd_dish_name_text"
-        tools:visibility="visible" />
+      tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/cmd_egg_02"
@@ -41,14 +45,9 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:contentDescription="@string/allegerns_egg"
-        android:maxWidth="24dp"
+        android:maxWidth="@dimen/menu_allegern_max_width"
         android:src="@drawable/a02"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cmd_fish_03"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cmd_gluten_01"
-        app:layout_constraintTop_toBottomOf="@+id/cmd_dish_name_text"
         tools:visibility="visible" />
 
     <ImageView
@@ -57,14 +56,9 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:contentDescription="@string/allegerns_egg"
-        android:maxWidth="24dp"
+        android:maxWidth="@dimen/menu_allegern_max_width"
         android:src="@drawable/a03"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cmd_milk_04"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cmd_egg_02"
-        app:layout_constraintTop_toBottomOf="@+id/cmd_dish_name_text"
         tools:visibility="visible" />
 
     <ImageView
@@ -73,15 +67,10 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:contentDescription="@string/allergens_milk"
-        android:maxWidth="24dp"
+        android:maxWidth="@dimen/menu_allegern_max_width"
         android:src="@drawable/a04"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cmd_nuts_05"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cmd_fish_03"
-        app:layout_constraintTop_toBottomOf="@+id/cmd_dish_name_text"
-        tools:visibility="visible" />
+       tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/cmd_nuts_05"
@@ -89,14 +78,9 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:contentDescription="@string/allergens_milk"
-        android:maxWidth="24dp"
+        android:maxWidth="@dimen/menu_allegern_max_width"
         android:src="@drawable/a05"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cmd_seafood_06"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cmd_milk_04"
-        app:layout_constraintTop_toBottomOf="@+id/cmd_dish_name_text"
         tools:visibility="visible" />
 
     <ImageView
@@ -105,13 +89,12 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:contentDescription="@string/allergens_seafood"
-        android:maxWidth="24dp"
+        android:maxWidth="@dimen/menu_allegern_max_width"
         android:src="@drawable/a05"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cmd_nuts_05"
-        app:layout_constraintTop_toBottomOf="@+id/cmd_dish_name_text"
         tools:visibility="visible" />
+</LinearLayout>
+
 
     <TextView
         android:id="@+id/cmd_dish_price_text"

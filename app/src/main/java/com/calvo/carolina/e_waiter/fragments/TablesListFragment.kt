@@ -1,19 +1,15 @@
 package com.calvo.carolina.e_waiter.fragments
 
 import android.app.Activity
-import android.content.Context
-import android.net.Uri
-import android.os.Bundle
 import android.app.Fragment
+import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.SimpleAdapter
-
 import com.calvo.carolina.e_waiter.R
-import com.calvo.carolina.e_waiter.models.Table
 import com.calvo.carolina.e_waiter.models.Tables
 
 class TablesListFragment : Fragment()
@@ -26,35 +22,27 @@ class TablesListFragment : Fragment()
         }
     }
 
-    private var onTableSelectedListener: OnTableSelectedListener? = null
-    private lateinit var root: View
+    private var _onTableSelectedListener: OnTableSelectedListener? = null
+    private lateinit var _root: View
     private var _data = ArrayList<HashMap<String, Any>>()
-    private lateinit var adapter: SimpleAdapter
+    private lateinit var _adapter: SimpleAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View?
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         if (inflater != null)
         {
-            root = inflater.inflate(R.layout.fragment_tables_list, container, false)
+            _root = inflater.inflate(R.layout.fragment_tables_list, container, false)
 
-            val list = root.findViewById<ListView>(R.id.ftl_table_list_view)
+            val list = _root.findViewById<ListView>(R.id.ftl_table_list_view)
             calculateData()
-            adapter = SimpleAdapter(activity, _data, android.R.layout.simple_list_item_2, arrayOf("name", "orders"), intArrayOf(android.R.id.text1, android.R.id.text2) )
-            list.adapter = adapter
+            _adapter = SimpleAdapter(activity, _data, android.R.layout.simple_list_item_2, arrayOf("name", "orders"), intArrayOf(android.R.id.text1, android.R.id.text2) )
+            list.adapter = _adapter
 
-            // Nos enteramos de que se ha pulsado un elemento de la lista así:
             list.setOnItemClickListener { parent, view, position, id ->
-                // Aviso al listener
-                onTableSelectedListener?.onTableSelected(position)
+                _onTableSelectedListener?.onTableSelected(position)
             }
         }
-        return root
+        return _root
     }
 
     override fun onAttach(context: Context?) {
@@ -70,13 +58,13 @@ class TablesListFragment : Fragment()
 
     override fun onDetach() {
         super.onDetach()
-        onTableSelectedListener = null
+        _onTableSelectedListener = null
     }
 
     fun onDataChanged()
     {
         calculateData()
-        adapter.notifyDataSetInvalidated()
+        _adapter.notifyDataSetInvalidated()
     }
 
     private fun calculateData()
@@ -94,7 +82,7 @@ class TablesListFragment : Fragment()
 
     private fun commonAttach(listener: Any?) {
         if (listener is OnTableSelectedListener) {
-            onTableSelectedListener = listener
+            _onTableSelectedListener = listener
         }
     }
 

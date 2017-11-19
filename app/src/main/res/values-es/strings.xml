@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">E-Waiter</string>
+    <string name="allergen_gluten">Contiene gluten</string>
+    <string name="allegerns_egg">Contiene huevo</string>
+    <string name="allergens_milk">Contiene lácteos</string>
+    <string name="allergens_nuts">Contiene frutos secos</string>
+    <string name="allergens_seafood">Contiene marisco</string>
+    <string name="feo_notas">Notas</string>
+    <string name="feo_add_button">Añadir</string>
+    <string name="feo_dish_image">Imagen del plato</string>
+    <string name="menu_item_calcular_cuenta">Calcular cuenta</string>
+    <string name="menu_calcular_cuenta_ready">Listo</string>
+    <string name="menu_activity_menu_letter">Añadir plato a %s</string>
+    <string name="edit_dish_guardar">Guardar</string>
+    <string name="table_act_cuenta_mesa">Cuenta de la mesa %d</string>
+    <string name="table_act_total_cuenta">Total:  %.2f €</string>
+    <string name="menu_precio">%.2f €</string>
+</resources>

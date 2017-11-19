@@ -69,7 +69,7 @@ class TableActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedLis
                         val dish = data.getSerializableExtra(MenuActivity.EXTRA_SELECTED_DISH) as? Dish
                         if (dish != null)
                         {
-                            startActivityForResult(EditOrderActivity.intent(this, Order(dish)), REQ_EDIT_ORDER_ACTIVITY)
+                            startActivityForResult(EditOrderActivity.intentAddOrder(this, Order(dish)), REQ_EDIT_ORDER_ACTIVITY)
                         }
                     }
                     MenuActivity.RESULT_OTHER_TABLE_SELECTED ->
@@ -85,9 +85,19 @@ class TableActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedLis
             if (data != null)
             {
                 val order = data.getSerializableExtra(EditOrderActivity.RETURNED_ORDER) as? Order
+                val editMode = data.getBooleanExtra(EditOrderActivity.EDIT_MODE, false)
+                val orderPosition = data.getIntExtra(EditOrderActivity.ORDER_POSITION, -1)
+
                 if (order != null)
                 {
-                    _table.orders.add(order)
+                    if (!editMode)
+                    {
+                        _table.orders.add(order)
+                    }
+                    else
+                    {
+                        _table.orders[orderPosition].notes = order.notes
+                    }
                     // Avisamos al adapter de que los datos han cambiado
                     adapter.notifyDataSetChanged()
                     // Repintamos el menú, por si hay que habilitar el botón
@@ -110,7 +120,7 @@ class TableActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedLis
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean
     {
-        menu?.findItem(R.id.menu_calculate_bill)?.setEnabled(Tables[_position].orders.size != 0)
+        menu?.findItem(R.id.menu_calculate_bill)?.isEnabled = Tables[_position].orders.size != 0
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -121,8 +131,8 @@ class TableActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedLis
             val total = Tables[_position].orders.map { order -> order.dish.price }.sum()
 
             AlertDialog.Builder(this)
-                    .setTitle("Cuenta de la mesa ${_position}")
-                    .setMessage("El total de la cuenta es ${total}€")
+                    .setTitle(getString(R.string.table_act_cuenta_mesa, _position))
+                    .setMessage(getString(R.string.table_act_total_cuenta, total))
                     .setPositiveButton(getString(R.string.menu_calcular_cuenta_ready), { dialog, _ ->
                         dialog.dismiss()
                     })
@@ -141,6 +151,7 @@ class TableActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedLis
     {
         _position = intent.getIntExtra(EXTRA_TABLE_POSITION, 0)
     }
+
     private fun setActionBar()
     {
         setSupportActionBar(toolbar)
@@ -152,6 +163,7 @@ class TableActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedLis
     {
         supportActionBar?.title = _table.name
     }
+
     private fun setAddDishButton()
     {
         val addDishButton  = findViewById<View>(R.id.add_dish_button)
@@ -163,14 +175,12 @@ class TableActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedLis
     private fun setOrdersList()
     {
         val list = findViewById<ListView>(R.id.at_orders_list)
-        adapter = ArrayAdapter<Order>(this, android.R.layout.simple_list_item_1, Tables[_position].orders)
+        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, Tables[_position].orders)
         list.adapter = adapter
 
-        // Nos enteramos de que se ha pulsado un elemento de la lista así:
-        //list.setOnItemClickListener { parent, view, position, id ->
-        //    // Aviso al listener
-        //    onCitySelectedListener?.onCitySelected(Cities.get(position), position)
-        //}
+        list.setOnItemClickListener { _, _, position, _ ->
+            startActivityForResult(EditOrderActivity.intentEditOrder(this, Tables[_position].orders[position], position), REQ_EDIT_ORDER_ACTIVITY)
+        }
     }
 
     private fun changeTable(position: Int)

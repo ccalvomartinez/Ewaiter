@@ -10,7 +10,7 @@ import com.calvo.carolina.e_waiter.models.Dish
 import com.calvo.carolina.e_waiter.models.MenuLetter
 import kotlinx.android.synthetic.main.content_menu_dish_item.view.*
 
-class DishRecyclerViewAdapter(): RecyclerView.Adapter<DishRecyclerViewAdapter.DishViewHolder>()
+class DishRecyclerViewAdapter: RecyclerView.Adapter<DishRecyclerViewAdapter.DishViewHolder>()
 {
     var listener: OnDishSelectedListener? = null
 
@@ -39,7 +39,7 @@ class DishRecyclerViewAdapter(): RecyclerView.Adapter<DishRecyclerViewAdapter.Di
          fun bindDish(dish: Dish)
          {
              itemView.cmd_dish_name_text.text = dish.name
-             itemView.cmd_dish_price_text.text = dish.price.toString()
+             itemView.cmd_dish_price_text.text = itemView.context.getString(R.string.menu_precio, dish.price)
              for (i in 0 until dish.allergens.size)
              {
                  when( dish.allergens[i])
@@ -52,12 +52,7 @@ class DishRecyclerViewAdapter(): RecyclerView.Adapter<DishRecyclerViewAdapter.Di
                      "a06" -> itemView.cmd_seafood_06.visibility = View.VISIBLE
                  }
              }
-             itemView.setOnClickListener(object: View.OnClickListener{
-                 override fun onClick(v: View?)
-                 {
-                     listener?.onDishSelected(dish)
-                 }
-             })
+             itemView.setOnClickListener { listener?.onDishSelected(dish) }
          }
     }
 

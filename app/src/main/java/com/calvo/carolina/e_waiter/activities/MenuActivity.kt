@@ -67,7 +67,6 @@ class MenuActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedList
         _position = intent.getIntExtra(EXTRA_INITIAL_TABLE_POSITION, 0)
     }
 
-    // TODO("Refactor this")
     private fun returnDishToParentActivityAndFinish(dish: Dish)
     {
         val returnIntent = Intent()
@@ -77,9 +76,9 @@ class MenuActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedList
     }
     private fun setDishesRecycleView()
     {
-        val dishesList_ = findViewById<RecyclerView>(R.id.am_dishes_menu_list)
-        dishesList_.layoutManager = LinearLayoutManager(this)
-        dishesList_.itemAnimator = DefaultItemAnimator()
+        val dishesList = findViewById<RecyclerView>(R.id.am_dishes_menu_list)
+        dishesList.layoutManager = LinearLayoutManager(this)
+        dishesList.itemAnimator = DefaultItemAnimator()
         val dishesAdapter = DishRecyclerViewAdapter()
         dishesAdapter.listener = object : DishRecyclerViewAdapter.OnDishSelectedListener
         {
@@ -88,7 +87,7 @@ class MenuActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedList
                 returnDishToParentActivityAndFinish(dish)
             }
         }
-        dishesList_.adapter = dishesAdapter
+        dishesList.adapter = dishesAdapter
 
     }
 }

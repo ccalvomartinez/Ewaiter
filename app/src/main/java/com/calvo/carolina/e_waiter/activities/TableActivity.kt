@@ -167,7 +167,7 @@ class TableActivity : AppCompatActivity(), TablesListFragment.OnTableSelectedLis
     private fun setAddDishButton()
     {
         val addDishButton  = findViewById<View>(R.id.add_dish_button)
-        addDishButton.setOnClickListener { view ->
+        addDishButton.setOnClickListener { _ ->
             startActivityForResult(MenuActivity.intent(this, _position), REQ_MENU_ACTIVITY)
         }
     }

@@ -38,7 +38,7 @@ class TablesListFragment : Fragment()
             _adapter = SimpleAdapter(activity, _data, android.R.layout.simple_list_item_2, arrayOf("name", "orders"), intArrayOf(android.R.id.text1, android.R.id.text2) )
             list.adapter = _adapter
 
-            list.setOnItemClickListener { parent, view, position, id ->
+            list.setOnItemClickListener { _, _, position, _ ->
                 _onTableSelectedListener?.onTableSelected(position)
             }
         }
